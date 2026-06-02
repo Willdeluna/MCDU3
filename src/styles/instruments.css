@@ -1,0 +1,538 @@
+/* Common Instrument Shell */
+.instrument-shell {
+  position: relative;
+  overflow: hidden;
+  width: var(--shell-width-mm, 520px);
+  height: var(--shell-height-mm, auto);
+  border-radius: var(--bezel-radius-mm, 14px);
+  background:
+    radial-gradient(circle at 18% 8%, rgba(255, 255, 255, 0.16), transparent 28%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"),
+    linear-gradient(135deg, #2b2e30 0%, #17191a 45%, #08090a 100%);
+  background-blend-mode: normal, overlay, normal;
+  border: 1.5px solid #111;
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.12),
+    inset 0 -12px 30px rgba(0, 0, 0, 0.8),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 24px 50px rgba(0, 0, 0, 0.7);
+}
+
+.instrument-shell--airbus-mcdu {
+  background:
+    radial-gradient(circle at 30% 15%, rgba(255, 255, 255, 0.12), transparent 30%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"),
+    linear-gradient(135deg, #596c7e 0%, #3a4b59 45%, #24303c 100%);
+  background-blend-mode: normal, overlay, normal;
+  border: 1.8px solid #161e26;
+  box-shadow:
+    inset 0 3px 5px rgba(255, 255, 255, 0.22),
+    inset 0 -20px 45px rgba(0, 0, 0, 0.8),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 24px 64px rgba(0, 0, 0, 0.75);
+}
+
+.instrument-shell__edge-highlight {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.instrument-shell__wear {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.38;
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='scratchFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.03 0.35' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0, 1 0 0 0 0, 1 0 0 0 0, 0 0 0 1.2 0' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23scratchFilter)'/%3E%3C/svg%3E"),
+    radial-gradient(circle at 15% 25%, rgba(255, 255, 255, 0.8) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 75% 60%, rgba(255, 255, 255, 0.8) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 35% 82%, rgba(255, 255, 255, 0.8) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 85% 20%, rgba(255, 255, 255, 0.8) 0 1px, transparent 1.5px);
+  background-size:
+    190px 190px,
+    41px 47px,
+    57px 51px,
+    31px 37px,
+    43px 29px;
+  box-shadow:
+    inset 0 0 50px 8px rgba(0, 0, 0, 0.5),
+    inset 4px 4px 18px rgba(255, 255, 255, 0.08);
+  mix-blend-mode: overlay;
+}
+
+.instrument-shell__content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Screws - High Fidelity Weathered Dzus / Hex Fasteners */
+.bezel-screw {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.6) 0%, transparent 20%),
+    radial-gradient(circle at 65% 65%, rgba(0, 0, 0, 0.8) 0%, transparent 40%),
+    linear-gradient(135deg, #6b6f72 0%, #3e4143 50%, #1c1d1e 100%);
+  border: 1px solid #111;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.4),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.85),
+    0 1.5px 3px rgba(0, 0, 0, 0.95),
+    0 0 1px 2px rgba(255, 255, 255, 0.04); /* Wear halo on surrounding metal panel */
+}
+
+.bezel-screw__slot {
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  top: 50%;
+  height: 2.2px;
+  transform: translateY(-50%);
+  border-radius: 1.5px;
+  background: linear-gradient(to bottom, #000, #222);
+  box-shadow:
+    inset 0 1px 0 rgba(0, 0, 0, 0.8),
+    0 1px 0.5px rgba(255, 255, 255, 0.25);
+}
+
+/* Double-beveled protective screen bezel frame */
+.instrument-shell__inner-bevel {
+  position: absolute;
+  inset: -1.5px;
+  border: 2px solid;
+  border-image: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.35) 0%,
+      rgba(255, 255, 255, 0.04) 50%,
+      rgba(0, 0, 0, 0.95) 100%
+    )
+    2;
+  box-shadow:
+    inset 0 3px 6px rgba(0, 0, 0, 0.9),
+    inset 0 -3px 6px rgba(255, 255, 255, 0.06),
+    0 1.5px 3px rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Glass & Screen Effects */
+.screen-glass {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 45%, rgba(20, 45, 35, 0.22), transparent 72%), #020505;
+  box-shadow:
+    inset 0 10px 15px rgba(0, 0, 0, 0.95),
+    inset 0 -8px 10px rgba(0, 0, 0, 0.85),
+    inset 8px 0 10px rgba(0, 0, 0, 0.9),
+    inset -8px 0 10px rgba(0, 0, 0, 0.9),
+    inset 0 0 4px rgba(255, 255, 255, 0.15);
+  filter: brightness(var(--screen-brightness, 100%));
+}
+
+.screen-glass__content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: inherit;
+}
+
+.screen-glass__scanlines {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: var(--scanline-opacity, 0.08);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.3) 0px,
+    rgba(0, 0, 0, 0.3) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+.screen-glass__reflection {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.12), transparent 18%),
+    radial-gradient(circle at 75% 15%, rgba(255, 255, 255, 0.1), transparent 22%);
+  opacity: var(--reflection-opacity, 0.35);
+}
+
+.screen-glass__vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  box-shadow: inset 0 0 28px rgba(0, 0, 0, 0.85);
+  opacity: var(--vignette-opacity, 1);
+}
+
+.screen-glass__grain {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  opacity: var(--grain-opacity, 0.04);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.screen-glass__smudges {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+  opacity: var(--smudge-opacity, 0.15);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='smudgeFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.05' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23smudgeFilter)'/%3E%3C/svg%3E");
+  mix-blend-mode: screen;
+}
+
+@keyframes crt-flicker {
+  0% {
+    opacity: calc(var(--phosphor-glow, 0) * 0.94);
+  }
+  5% {
+    opacity: calc(var(--phosphor-glow, 0) * 1);
+  }
+  10% {
+    opacity: calc(var(--phosphor-glow, 0) * 0.92);
+  }
+  15% {
+    opacity: calc(var(--phosphor-glow, 0) * 0.97);
+  }
+  20% {
+    opacity: calc(var(--phosphor-glow, 0) * 0.94);
+  }
+  25% {
+    opacity: calc(var(--phosphor-glow, 0) * 1);
+  }
+  30% {
+    opacity: calc(var(--phosphor-glow, 0) * 0.96);
+  }
+  35% {
+    opacity: calc(var(--phosphor-glow, 0) * 0.93);
+  }
+  40% {
+    opacity: calc(var(--phosphor-glow, 0) * 0.97);
+  }
+  45% {
+    opacity: calc(var(--phosphor-glow, 0) * 0.95);
+  }
+  50% {
+    opacity: calc(var(--phosphor-glow, 0) * 1);
+  }
+  55% {
+    opacity: calc(var(--phosphor-glow, 0) * 0.94);
+  }
+  60% {
+    opacity: calc(var(--phosphor-glow, 0) * 0.98);
+  }
+  65% {
+    opacity: calc(var(--phosphor-glow, 0) * 0.93);
+  }
+  70% {
+    opacity: calc(var(--phosphor-glow, 0) * 0.97);
+  }
+  75% {
+    opacity: calc(var(--phosphor-glow, 0) * 0.95);
+  }
+  80% {
+    opacity: calc(var(--phosphor-glow, 0) * 1);
+  }
+  85% {
+    opacity: calc(var(--phosphor-glow, 0) * 0.94);
+  }
+  90% {
+    opacity: calc(var(--phosphor-glow, 0) * 0.96);
+  }
+  95% {
+    opacity: calc(var(--phosphor-glow, 0) * 0.93);
+  }
+  100% {
+    opacity: calc(var(--phosphor-glow, 0) * 0.94);
+  }
+}
+
+.screen-glass__glow {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(57, 255, 20, 0.15) 0%,
+    rgba(57, 255, 20, 0.08) 25%,
+    rgba(57, 255, 20, 0.03) 55%,
+    rgba(57, 255, 20, 0.01) 70%,
+    transparent 85%
+  );
+  opacity: var(--phosphor-glow, 0);
+  will-change: opacity;
+  transform: translate3d(0, 0, 0);
+  animation: crt-flicker 0.15s infinite;
+}
+
+/* ------------------------------------------------
+   ND Frame Surface Containers
+   ------------------------------------------------ */
+
+.boeing-nd-surface {
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.boeing-nd-scanlines {
+  pointer-events: none;
+}
+
+.boeing-nd-vignette {
+  pointer-events: none;
+}
+
+.airbus-nd-surface {
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.airbus-nd-dot-grid {
+  pointer-events: none;
+}
+
+.airbus-nd-vignette {
+  pointer-events: none;
+}
+
+/* ------------------------------------------------
+   Avionics Keys
+   ------------------------------------------------ */
+
+.avionics-key {
+  position: relative;
+  min-height: 36px;
+  background: #0a0b0c; /* Keywell bottom plate */
+  border: none;
+  padding: 1px 1.5px 2px 1.5px; /* Keywell cutout recess padding */
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+  box-sizing: border-box;
+  /* Base shadow/well for the key */
+  border-radius: 5px;
+  box-shadow:
+    inset 0 3px 5px rgba(0, 0, 0, 0.92),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.08),
+    0 1px 1px rgba(255, 255, 255, 0.05);
+}
+
+.avionics-key--round {
+  border-radius: 50%;
+  box-shadow:
+    inset 0 3px 4px rgba(0, 0, 0, 0.92),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.06),
+    0 1px 1px rgba(255, 255, 255, 0.04);
+}
+
+.avionics-key--round .avionics-key__face {
+  border-radius: 50%;
+}
+
+.avionics-key--square {
+  border-radius: 5px;
+}
+
+.avionics-key__face {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.95);
+  border-radius: 5px;
+  background: linear-gradient(135deg, #444748 0%, #2f3233 48%, #161819 100%);
+  color: rgba(245, 245, 235, 0.92);
+  font-family: var(--font-avionics);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  box-shadow:
+    inset 1px 1.5px 0.5px rgba(255, 255, 255, 0.16),
+    inset -1px -1.5px 1.5px rgba(0, 0, 0, 0.7),
+    0 2.5px 4px rgba(0, 0, 0, 0.65);
+  transition:
+    transform 60ms cubic-bezier(0.2, 0, 0, 1),
+    box-shadow 60ms cubic-bezier(0.2, 0, 0, 1);
+  will-change: transform, box-shadow;
+}
+
+.avionics-key__face::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  z-index: 1;
+}
+
+.avionics-key__face > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Base key legends soft glow scaling with cockpit backlight */
+.avionics-key--boeing .avionics-key__legend {
+  text-shadow: 0 0 calc(2px * var(--cockpit-backlight, 1)) rgba(255, 255, 240, calc(0.25 * var(--cockpit-backlight, 1)));
+}
+
+.avionics-key--airbus {
+  background: #111518 !important;
+  border-radius: 6px !important;
+  padding: 2.5px 3px 3.5px 3px !important;
+  box-shadow:
+    inset 0 3px 6px rgba(0, 0, 0, 0.95),
+    inset 0 -1px 0.5px rgba(255, 255, 255, 0.05),
+    0 1px 1px rgba(255, 255, 255, 0.04),
+    0 0 0 1.5px rgba(0, 0, 0, 0.65) !important;
+}
+
+.avionics-key--airbus .avionics-key__legend {
+  text-shadow:
+    0 0 calc(3px * var(--cockpit-backlight, 1)) rgba(255, 120, 0, calc(0.7 * var(--cockpit-backlight, 1))),
+    0 0 calc(8px * var(--cockpit-backlight, 1)) rgba(255, 140, 0, calc(0.4 * var(--cockpit-backlight, 1))),
+    0 1px 0.5px rgba(0, 0, 0, 0.8);
+  color: #ff9800;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+/* Mechanical Key Travel press states */
+.avionics-key:active .avionics-key__face,
+.avionics-key--active .avionics-key__face {
+  transform: translateY(1px);
+  box-shadow:
+    inset 1px 1px 0.5px rgba(255, 255, 255, 0.05),
+    inset -1px -1px 1px rgba(0, 0, 0, 0.4),
+    inset 0 2px 4px rgba(0, 0, 0, 0.8),
+    0 0.5px 0.5px rgba(0, 0, 0, 0.85);
+}
+
+.avionics-key:focus-visible,
+.cdu-button:focus-visible {
+  outline: 2px solid #39ff14;
+  outline-offset: 2px;
+}
+
+.avionics-key--airbus .avionics-key__face {
+  background: linear-gradient(135deg, #4b5258 0%, #2f3438 50%, #171a1d 100%);
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.95);
+  box-shadow:
+    inset 1px 1.5px 0.5px rgba(255, 255, 255, 0.12),
+    inset -1px -1.5px 1.5px rgba(0, 0, 0, 0.75),
+    0 2px 3px rgba(0, 0, 0, 0.7);
+}
+
+/* EXEC status light skeuomorphic simulation */
+.avionics-key--exec .avionics-key__face::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 3.5px;
+  border-radius: 1px;
+  background: #1a1c1a; /* Deep dark set glass when unlit */
+  border: 0.5px solid rgba(0, 0, 0, 0.7);
+  box-shadow:
+    inset 0 1px 1px rgba(0, 0, 0, 0.85),
+    0 0.5px 0.5px rgba(255, 255, 255, 0.04);
+  transition:
+    background 120ms ease,
+    box-shadow 120ms ease;
+  z-index: 3;
+}
+
+.avionics-key--exec.avionics-key--lit .avionics-key__face::before {
+  background: #39ff14;
+  box-shadow:
+    0 0 8px #39ff14,
+    0 0 16px rgba(57, 255, 20, 0.65),
+    inset 0 1px 0.5px rgba(255, 255, 255, 0.6);
+}
+
+/* Specific lit state override */
+.avionics-key--lit {
+  color: #eaffdf;
+  text-shadow:
+    0 0 3px rgba(80, 255, 80, 0.85),
+    0 0 8px rgba(80, 255, 80, 0.45);
+}
+
+.panel-label {
+  font-family: var(--font-avionics);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(240, 240, 225, 0.72);
+  text-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.9),
+    0 0 3px rgba(255, 255, 255, 0.16);
+}
+
+/* High-Fidelity Cockpit Control Pulsing Highlights */
+.highlighted-boeing {
+  outline: 2px solid var(--boeing-cyan) !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 18px rgba(0, 215, 255, 0.6) !important;
+  animation: control-pulse-boeing 1.8s infinite ease-in-out !important;
+}
+
+.highlighted-airbus {
+  outline: 2px solid var(--airbus-amber) !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 18px rgba(255, 176, 0, 0.65) !important;
+  animation: control-pulse-airbus 1.8s infinite ease-in-out !important;
+}
+
+@keyframes control-pulse-boeing {
+  0%,
+  100% {
+    box-shadow: 0 0 10px rgba(0, 215, 255, 0.45);
+    outline-color: var(--boeing-cyan);
+  }
+  50% {
+    box-shadow:
+      0 0 20px rgba(0, 215, 255, 0.8),
+      inset 0 0 6px rgba(0, 215, 255, 0.25);
+    outline-color: rgba(0, 215, 255, 0.7);
+  }
+}
+
+@keyframes control-pulse-airbus {
+  0%,
+  100% {
+    box-shadow: 0 0 10px rgba(255, 176, 0, 0.5);
+    outline-color: var(--airbus-amber);
+  }
+  50% {
+    box-shadow:
+      0 0 20px rgba(255, 176, 0, 0.85),
+      inset 0 0 6px rgba(255, 176, 0, 0.3);
+    outline-color: rgba(255, 176, 0, 0.75);
+  }
+}
